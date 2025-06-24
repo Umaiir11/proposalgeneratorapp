@@ -4,7 +4,12 @@ class ServicePackage {
   List<ServiceLevel> serviceLevels;
   double? retainerAmount;
 
-  ServicePackage({required this.name, required this.description, this.serviceLevels = const [], this.retainerAmount});
+  ServicePackage({
+    required this.name,
+    required this.description,
+    this.serviceLevels = const [],
+    this.retainerAmount,
+  });
 
   Map<String, dynamic> toJson() => {
     'name': name,
@@ -12,6 +17,15 @@ class ServicePackage {
     'serviceLevels': serviceLevels.map((s) => s.toJson()).toList(),
     'retainerAmount': retainerAmount,
   };
+
+  factory ServicePackage.fromJson(Map<String, dynamic> json) => ServicePackage(
+    name: json['name'],
+    description: json['description'],
+    serviceLevels: (json['serviceLevels'] as List)
+        .map((s) => ServiceLevel.fromJson(s))
+        .toList(),
+    retainerAmount: json['retainerAmount'],
+  );
 }
 
 class ServiceLevel {
@@ -22,7 +36,14 @@ class ServiceLevel {
   double price;
   List<ServiceItem> serviceItems;
 
-  ServiceLevel({required this.id, required this.name, required this.description, required this.frequency, required this.price, this.serviceItems = const []});
+  ServiceLevel({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.frequency,
+    required this.price,
+    this.serviceItems = const [],
+  });
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -38,8 +59,10 @@ class ServiceLevel {
     name: json['name'],
     description: json['description'],
     frequency: json['frequency'],
-    price: json['price'],
-    serviceItems: (json['serviceItems'] as List).map((i) => ServiceItem.fromJson(i)).toList(),
+    price: json['price']?.toDouble() ?? 0.0,
+    serviceItems: (json['serviceItems'] as List)
+        .map((i) => ServiceItem.fromJson(i))
+        .toList(),
   );
 }
 
@@ -50,7 +73,13 @@ class ServiceItem {
   List<String> options;
   dynamic selectedValue;
 
-  ServiceItem({required this.name, required this.explanation, required this.optionType, this.options = const [], this.selectedValue});
+  ServiceItem({
+    required this.name,
+    required this.explanation,
+    required this.optionType,
+    this.options = const [],
+    this.selectedValue,
+  });
 
   Map<String, dynamic> toJson() => {
     'name': name,
@@ -76,5 +105,27 @@ class ClientInfo {
   String phone;
   int numberOfPackages;
 
-  ClientInfo({this.clientName = '', this.businessName = '', this.email = '', this.phone = '', this.numberOfPackages = 3});
+  ClientInfo({
+    this.clientName = '',
+    this.businessName = '',
+    this.email = '',
+    this.phone = '',
+    this.numberOfPackages = 1,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'clientName': clientName,
+    'businessName': businessName,
+    'email': email,
+    'phone': phone,
+    'numberOfPackages': numberOfPackages,
+  };
+
+  factory ClientInfo.fromJson(Map<String, dynamic> json) => ClientInfo(
+    clientName: json['clientName'] ?? '',
+    businessName: json['businessName'] ?? '',
+    email: json['email'] ?? '',
+    phone: json['phone'] ?? '',
+    numberOfPackages: json['numberOfPackages'] ?? 1,
+  );
 }

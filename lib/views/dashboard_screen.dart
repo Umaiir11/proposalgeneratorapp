@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../configs/app_theme.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -19,37 +28,102 @@ class DashboardScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(24),
-                child: Column(
-                  children: [
-                    Text('Performance Financial', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: Colors.white)),
-                    Text('Proposal Generator', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white.withOpacity(0.9))),
-                  ],
-                ).animate().fadeIn(),
+                padding: const EdgeInsets.all(24),
+                child: AnimationLimiter(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Performance Financial',
+                        style: GoogleFonts.inter(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ).animate().fadeIn(duration: 600.ms),
+                      Text(
+                        'Proposal Generator',
+                        style: GoogleFonts.inter(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white70,
+                        ),
+                      ).animate().fadeIn(duration: 600.ms, delay: 200.ms),
+                    ],
+                  ),
+                ),
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 24),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    color: AppTheme.lightGray,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 20,
+                        offset: const Offset(0, -10),
+                      ),
+                    ],
                   ),
                   child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.description_outlined, size: 80, color: AppTheme.primaryBlue).animate().scale(),
-                        SizedBox(height: 32),
-                        Text('Create Professional Proposals', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: AppTheme.darkGray)),
-                        SizedBox(height: 16),
-                        Text('Build customized service packages with our intuitive proposal generator.', style: TextStyle(fontSize: 16, color: AppTheme.neutralGray)),
-                        SizedBox(height: 48),
-                        ElevatedButton.icon(
-                          onPressed: () => Get.toNamed('/client-info'),
-                          icon: Icon(Icons.add_circle_outline),
-                          label: Text('Create New Proposal'),
-                        ),
-                      ],
+                    child: AnimationLimiter(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.description_outlined,
+                            size: 80,
+                            color: AppTheme.primaryBlue,
+                          ).animate().scale(duration: 600.ms),
+                          const SizedBox(height: 24),
+                          Text(
+                            'Create Professional Proposals',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.darkGray,
+                            ),
+                          ).animate().fadeIn(duration: 600.ms),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Build customized service packages with ease.',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 16,
+                              color: AppTheme.neutralGray,
+                            ),
+                          ).animate().fadeIn(duration: 600.ms, delay: 200.ms),
+                          const SizedBox(height: 32),
+                          ElevatedButton.icon(
+                            onPressed: () => Get.toNamed('/client-info'),
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.white,
+                            ),
+                            label: Text(
+                              'Create New Proposal',
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryBlue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
+                            ),
+                          ).animate().scale(duration: 600.ms, delay: 400.ms),
+                        ],
+                      ),
                     ),
                   ),
                 ),
