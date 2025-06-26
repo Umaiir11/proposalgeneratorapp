@@ -3,12 +3,14 @@ class ServicePackage {
   String description;
   List<ServiceLevel> serviceLevels;
   double? retainerAmount;
+  String? tier; // New field to store the selected tier
 
   ServicePackage({
     required this.name,
     required this.description,
     this.serviceLevels = const [],
     this.retainerAmount,
+    this.tier,
   });
 
   Map<String, dynamic> toJson() => {
@@ -16,19 +18,33 @@ class ServicePackage {
     'description': description,
     'serviceLevels': serviceLevels.map((s) => s.toJson()).toList(),
     'retainerAmount': retainerAmount,
+    'tier': tier,
   };
 
   factory ServicePackage.fromJson(Map<String, dynamic> json) => ServicePackage(
     name: json['name'],
     description: json['description'],
-    serviceLevels: (json['serviceLevels'] as List)
-        .map((s) => ServiceLevel.fromJson(s))
-        .toList(),
+    serviceLevels: (json['serviceLevels'] as List).map((s) => ServiceLevel.fromJson(s)).toList(),
     retainerAmount: json['retainerAmount'],
+    tier: json['tier'],
   );
-}
 
-class ServiceLevel {
+  ServicePackage copyWith({
+    String? name,
+    String? description,
+    List<ServiceLevel>? serviceLevels,
+    double? retainerAmount,
+    String? tier,
+  }) {
+    return ServicePackage(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      serviceLevels: serviceLevels ?? this.serviceLevels,
+      retainerAmount: retainerAmount ?? this.retainerAmount,
+      tier: tier ?? this.tier,
+    );
+  }
+}class ServiceLevel {
   String id;
   String name;
   String description;
